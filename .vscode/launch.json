@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-BootcampHelpcenterApplication<bootcamp-helpcenter>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.necroliner.bootcamphelpcenter.BootcampHelpcenterApplication",
+            "projectName": "bootcamp-helpcenter",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
