@@ -1,4 +1,5 @@
 CREATE DATABASE IF NOT EXISTS helpcenter;
+
 USE helpcenter;
 
 CREATE TABLE IF NOT EXISTS helpcenter.`conversation` (

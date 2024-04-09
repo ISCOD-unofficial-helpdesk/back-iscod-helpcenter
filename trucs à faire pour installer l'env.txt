@@ -1,0 +1,14 @@
+- Installer le jdk 11
+
+- Installer les extensions pratiques de vscode : 
+	. Extension Pack Java
+	. Spring boot extension pack
+
+- Initialiser le projet avec initializr dans vscode :
+	ctrl-shift-p puis Spring Initializr: Generate a Maven Project 
+	suivre les étapes 
+
+- Installation de Maven https://maven.apache.org/download.cgi
+	. ajouter au path
+
+- Run avec plugin
