@@ -16,9 +16,8 @@ public class ChatController {
 
     @MessageMapping("/send")
     public void handleCustomerMessage(@Payload String messageContent, @Header("conversationId") int conversationId) {
-
-        Message message = conversationService.addMessageToConversation(conversationId, false, messageContent);
-
+        System.out.println(messageContent);
+        System.out.println("TEST");
     }
 
 }
