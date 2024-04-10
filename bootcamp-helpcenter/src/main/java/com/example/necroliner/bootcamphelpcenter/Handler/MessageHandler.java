@@ -1,14 +1,21 @@
 package com.example.necroliner.bootcamphelpcenter.Handler;
 
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketSession;
-import org.springframework.web.socket.handler.TextWebSocketHandler;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
-public class MessageHandler extends TextWebSocketHandler {
+@Controller
+@CrossOrigin(origins ="*")
+public class MessageHandler {
 
-    @Override
-    public void handleTextMessage(WebSocketSession session, TextMessage message){
-         System.out.println(message);
+    // reçois sur app/hello
+    //envoi sur topic/greetings
+    @MessageMapping("/hello")
+    @SendTo("/topic/greetings")
+    public String handleMessageFromClient(String message) throws Exception {
+        System.out.println("message: " + message);
+        return "message: " + message;
     }
-
+    
 }
