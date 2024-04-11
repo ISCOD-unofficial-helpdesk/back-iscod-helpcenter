@@ -1,17 +1,8 @@
-package com.example.necroliner.bootcamphelpcenter.Handler;
+package com.example.necroliner.bootcamphelpcenter.handler;
 
 public class MessageDTO {
-    private Integer id;
     private String username;
     private String text;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;
