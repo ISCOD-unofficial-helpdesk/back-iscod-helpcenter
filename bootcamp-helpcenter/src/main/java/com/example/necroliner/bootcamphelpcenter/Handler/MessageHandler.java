@@ -15,7 +15,7 @@ import com.example.necroliner.bootcamphelpcenter.model.Message;
 import com.example.necroliner.bootcamphelpcenter.repository.MessageRepository;
 
 @Controller
-@CrossOrigin(origins = {"http://localhost:5173", "http://127.0.0.1:5173"})
+@CrossOrigin(origins = {"http://localhost:5173", "http://127.0.0.1:5173"}, originPatterns =  "*")
 public class MessageHandler {
     
     @Autowired
@@ -32,11 +32,11 @@ public class MessageHandler {
             messageRepository.save(messageEntity);
         }
         List<Message> conversationHistory = messageRepository.findByUsername(userName);
-        List<String> listeUser = messageRepository.findDistinctUsernames();
+        //List<String> listeUser = messageRepository.findDistinctUsernames();
         //System.out.println("LISTE USER :" + listeUser);
         simpMessagingTemplate.convertAndSend("/listen/reply-" + userName, conversationHistory);
         simpMessagingTemplate.convertAndSend("/listen/assist", conversationHistory);
-        simpMessagingTemplate.convertAndSend("/listen/assist", listeUser);
+        //simpMessagingTemplate.convertAndSend("/listen/assist", listeUser);
     }
 
     @MessageMapping("/assist")
@@ -47,9 +47,9 @@ public class MessageHandler {
             messageRepository.save(messageEntity);
         }
         List<Message> conversationHistory = messageRepository.findByUsername(message.getUsername());
-        List<String> listeUser = messageRepository.findDistinctUsernames();
+        //List<String> listeUser = messageRepository.findDistinctUsernames();
         simpMessagingTemplate.convertAndSend("/listen/assist", conversationHistory);
         simpMessagingTemplate.convertAndSend("/listen/reply-" + message.getUsername(), conversationHistory);
-        simpMessagingTemplate.convertAndSend("/listen/assist", listeUser);
+        //simpMessagingTemplate.convertAndSend("/listen/assist", listeUser);
     }
 }
