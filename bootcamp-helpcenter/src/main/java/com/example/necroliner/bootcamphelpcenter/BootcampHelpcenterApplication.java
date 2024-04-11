@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @SpringBootApplication
-@CrossOrigin(origins = "http://127.0.0.1:5173")
+@CrossOrigin(origins = "http://localhost:5173")
 public class BootcampHelpcenterApplication {
 
 	public static void main(String[] args) {
