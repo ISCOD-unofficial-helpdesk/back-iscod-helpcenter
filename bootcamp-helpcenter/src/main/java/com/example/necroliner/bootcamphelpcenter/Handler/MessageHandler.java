@@ -15,7 +15,7 @@ import com.example.necroliner.bootcamphelpcenter.model.Message;
 import com.example.necroliner.bootcamphelpcenter.repository.MessageRepository;
 
 @Controller
-@CrossOrigin(origins ={"http://127.0.0.1:5173", "http://localhost:5173"})
+@CrossOrigin(origins = {"http://localhost:5173", "http://127.0.0.1:5173"})
 public class MessageHandler {
     
     @Autowired
@@ -29,7 +29,7 @@ public class MessageHandler {
         System.out.println("user: " + message);
         Message messageEntity = new Message(message, true, userName);
         messageRepository.save(messageEntity);
-        List<Message> conversationHistory = messageRepository.findByUserName(userName);
+        List<Message> conversationHistory = messageRepository.findByUsername(userName);
         simpMessagingTemplate.convertAndSend("/listen/reply-" + userName, conversationHistory);
         simpMessagingTemplate.convertAndSend("/listen/assist", conversationHistory);
     }
@@ -39,7 +39,7 @@ public class MessageHandler {
         System.out.println("assist : " + message.getText());
         Message messageEntity = new Message(message.getText(), false, message.getUsername());
         messageRepository.save(messageEntity);
-        List<Message> conversationHistory = messageRepository.findByUserName(message.getUsername());
+        List<Message> conversationHistory = messageRepository.findByUsername(message.getUsername());
         simpMessagingTemplate.convertAndSend("/listen/assist", conversationHistory);
         simpMessagingTemplate.convertAndSend("/listen/reply-" + message.getUsername(), conversationHistory);
     }

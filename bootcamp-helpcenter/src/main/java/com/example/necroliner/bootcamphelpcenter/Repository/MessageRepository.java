@@ -6,5 +6,5 @@ import com.example.necroliner.bootcamphelpcenter.model.Message;
 import java.util.List;
 
 public interface MessageRepository extends JpaRepository<Message,Integer>{
-    List<Message> findByUserName(String userName);
+    abstract List<Message> findByUsername(String username);
 }

@@ -17,6 +17,8 @@ public class Message {
     private boolean isSupport;
     private String username;
     
+    public Message(){}
+    
     public Message(String content, boolean isSupport, String username) {
         this.createAt = Timestamp.from(Instant.now());
         this.content = content;
