@@ -1,8 +1,9 @@
-package com.example.necroliner.bootcamphelpcenter.Handler;
+package com.example.necroliner.bootcamphelpcenter.handler;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -10,11 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.example.necroliner.bootcamphelpcenter.Repository.MessageRepository;
 import com.example.necroliner.bootcamphelpcenter.model.Message;
+import com.example.necroliner.bootcamphelpcenter.repository.MessageRepository;
 
 @Controller
-@CrossOrigin(origins ="http://127.0.0.1:5173")
+@CrossOrigin(origins ={"http://127.0.0.1:5173", "http://localhost:5173"})
 public class MessageHandler {
     
     @Autowired
@@ -28,7 +29,9 @@ public class MessageHandler {
         System.out.println("user: " + message);
         Message messageEntity = new Message(message, true, userName);
         messageRepository.save(messageEntity);
-        simpMessagingTemplate.convertAndSend("/listen/reply-" + userName, message);
+        List<Message> conversationHistory = messageRepository.findByUserName(userName);
+        simpMessagingTemplate.convertAndSend("/listen/reply-" + userName, conversationHistory);
+        simpMessagingTemplate.convertAndSend("/listen/assist", conversationHistory);
     }
 
     @MessageMapping("/assist")
@@ -36,6 +39,8 @@ public class MessageHandler {
         System.out.println("assist : " + message.getText());
         Message messageEntity = new Message(message.getText(), false, message.getUsername());
         messageRepository.save(messageEntity);
-        simpMessagingTemplate.convertAndSend("/listen/assist", message);
+        List<Message> conversationHistory = messageRepository.findByUserName(message.getUsername());
+        simpMessagingTemplate.convertAndSend("/listen/assist", conversationHistory);
+        simpMessagingTemplate.convertAndSend("/listen/reply-" + message.getUsername(), conversationHistory);
     }
 }

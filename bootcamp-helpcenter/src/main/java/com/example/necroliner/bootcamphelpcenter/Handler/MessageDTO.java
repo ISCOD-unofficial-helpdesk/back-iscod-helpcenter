@@ -1,4 +1,4 @@
-package com.example.necroliner.bootcamphelpcenter.Handler;
+package com.example.necroliner.bootcamphelpcenter.handler;
 
 public class MessageDTO {
     private String username;
