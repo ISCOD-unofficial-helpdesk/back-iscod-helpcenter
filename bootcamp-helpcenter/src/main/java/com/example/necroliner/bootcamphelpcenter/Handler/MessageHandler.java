@@ -26,21 +26,30 @@ public class MessageHandler {
 
     @MessageMapping("/user-message-{userName}")
     public void sendToUser(@Payload String message, @DestinationVariable String userName) {
-        System.out.println("user: " + message);
-        Message messageEntity = new Message(message, true, userName);
-        messageRepository.save(messageEntity);
+        //System.out.println("user: " + message);
+        if (!message.isEmpty()) {
+            Message messageEntity = new Message(message, true, userName);
+            messageRepository.save(messageEntity);
+        }
         List<Message> conversationHistory = messageRepository.findByUsername(userName);
+        List<String> listeUser = messageRepository.findDistinctUsernames();
+        //System.out.println("LISTE USER :" + listeUser);
         simpMessagingTemplate.convertAndSend("/listen/reply-" + userName, conversationHistory);
         simpMessagingTemplate.convertAndSend("/listen/assist", conversationHistory);
+        simpMessagingTemplate.convertAndSend("/listen/assist", listeUser);
     }
 
     @MessageMapping("/assist")
     public void sendToAssist(@RequestBody MessageDTO message) {
-        System.out.println("assist : " + message.getText());
-        Message messageEntity = new Message(message.getText(), false, message.getUsername());
-        messageRepository.save(messageEntity);
+        //System.out.println("assist : " + message.getText());
+        if (!message.getText().isEmpty()) {
+            Message messageEntity = new Message(message.getText(), false, message.getUsername());
+            messageRepository.save(messageEntity);
+        }
         List<Message> conversationHistory = messageRepository.findByUsername(message.getUsername());
+        List<String> listeUser = messageRepository.findDistinctUsernames();
         simpMessagingTemplate.convertAndSend("/listen/assist", conversationHistory);
         simpMessagingTemplate.convertAndSend("/listen/reply-" + message.getUsername(), conversationHistory);
+        simpMessagingTemplate.convertAndSend("/listen/assist", listeUser);
     }
 }
